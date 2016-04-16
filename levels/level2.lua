@@ -36,7 +36,7 @@ function Level2:construct()
         nw = true,
         w = true,
         e = true,
-        sw = true,
+        --sw = true,
     })
     entities:GetTile(6, 4):SetType('smalldoor', {
         w = true,

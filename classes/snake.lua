@@ -47,7 +47,7 @@ function Snake:update(delta)
                         -- Make sure tile is in bounds.
                         if part.x + dx > 0 and part.y + dy > 0 and part.x + dx <= level.mapWidth and part.y + dy <= level.mapHeight then
                             if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) then
-                                if self.CanMoveTo(part.x + dx, part.y + dy) then
+                                if self:CanMoveTo(part.x + dx, part.y + dy) then
                                     self:MoveTo(part.x + dx, part.y + dy)
                                 end
                             end
@@ -60,8 +60,40 @@ function Snake:update(delta)
 end
 
 function Snake:CanMoveTo(x, y)
-    if self.map:GetTile(part.x + dx, part.y + dy):GetType() ~= 'floor' then
+    if self.map:GetTile(x, y):GetType() ~= 'floor' then
         return false
+    end
+
+    local entity = entities:GetTile(x, y)
+    if entity and entity:GetType() == 'smalldoor' then
+        -- Make sure we can only enter from the correct direction.
+        local dx = self.dragging.x - x
+        local dy = self.dragging.y - y
+
+        local direction = nil
+        if dy == -1 then
+            if dx == 0 then
+                direction = 'nw'
+            elseif dx == 1 then
+                direction = 'ne'
+            end
+        elseif dy == 0 then
+            if dx == -1 then
+                direction = 'w'
+            elseif dx == 1 then
+                direction = 'e'
+            end
+        elseif dy == 1 then
+            if dx == -1 then
+                direction = 'sw'
+            elseif dx == 0 then
+                direction = 'se'
+            end
+        end
+
+        if direction and not entity.exits[direction] then
+            return false
+        end
     end
 
     return true
