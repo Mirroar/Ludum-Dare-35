@@ -54,7 +54,7 @@ local function LoadTextures()
     --textures:SetTileSize(32, 32)
     --textures:SetTilePadding(2, 2)
     --textures:SetTileOffset(2, 2)
-    --textures:DefineTile("Spinner1", 1, 1)
+    --textures:DefineTile("empty", 1, 1)
 end
 
 -- Loads and defines all needed sounds.
@@ -80,11 +80,15 @@ function love.load()
     love.window.setTitle("Ludum Dare 35")
     love.window.setMode(1280, 720)
 
+    log = Log()
+    log:insert('initialized...')
+
     LoadTextures()
     LoadSounds()
 
-    log = Log()
-    log:insert('initialized...')
+    map = Map(15, 15)
+    map:SetTileOffset(1, 32, 0)
+    map:SetTileOffset(2, 16, 20)
 end
 
 -- Handles per-frame state updates.
@@ -99,6 +103,9 @@ function love.draw()
 
     love.graphics.setColor(255, 255, 255)
     log:draw()
+
+    love.graphics.setColor(255, 255, 255)
+    map:draw()
 end
 
 -- Handles pressed keys.

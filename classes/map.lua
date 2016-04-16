@@ -80,18 +80,16 @@ function Map:_GetTileCoordinatesRecursive(dimension)
 end
 
 function Map:draw()
-    self.AssertArgumentType(self.tileset, TextureAtlas)
-
     self:_DrawRecursive(self.tiles, 1, 0, 0)
 end
 
 function Map:_DrawRecursive(table, dimension, currentX, currentY)
     for i = 1, #table do
         if dimension == self.dimensions then
-            local tileType = table[i]:GetType()
-            if tileType then
-                self.tileset:DrawSprite(tileType, currentX, currentY)
-            end
+            love.graphics.push()
+            love.graphics.translate(currentX, currentY)
+            table[i]:draw()
+            love.graphics.pop()
         else
             self:_DrawRecursive(table[i], dimension + 1, currentX, currentY)
         end

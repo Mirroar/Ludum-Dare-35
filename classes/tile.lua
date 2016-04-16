@@ -11,3 +11,8 @@ end
 function Tile:GetType()
     return self.tileType
 end
+
+function Tile:draw()
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.circle("fill", 0, 0, 5)
+end
