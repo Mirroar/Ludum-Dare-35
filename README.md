@@ -13,3 +13,10 @@ Ideas
   * For example to match a shape that was shown to the player briefly
   * could be complicated by linking points, etc.
   * Evaluate by measuring "area difference"
+  * Should probably be restricted so you can't cross lines
+  * Might add textures / points inside triangles that also get distorted
+* Have a character with multiple forms that can do different things
+  * Seems like the "easy" way out
+* Have a bunch of buttons / sliders that modify a shape
+  * Kind of like "The Room"
+  * Probably too inflexible
