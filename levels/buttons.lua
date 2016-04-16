@@ -52,6 +52,13 @@ function ButtonsLevel:construct()
         entities:GetTile(9, 6).exits.nw = true
         entities:GetTile(9, 6).exits.se = true
     end
+    entities:GetTile(3, 9).callbacks.release = function ()
+        entities:GetTile(9, 6).exits.nw = nil
+        entities:GetTile(9, 6).exits.se = nil
+        entities:GetTile(6, 9).exits.e = true
+        entities:GetTile(6, 9).exits.w = true
+        log:insert('Or close once snake steps off a button.')
+    end
 
     log:insert('Many things can happen when snake moves onto a button.')
 end

@@ -166,7 +166,7 @@ function Snake:MoveTo(x, y)
         size = 12
         entity:SetType(nil)
         level:EntityEaten('bigfood', x, y)
-    elseif entity:GetType() == 'button' and self.interactive then
+    elseif entity:GetType() == 'button' then
         if entity.callbacks.press then
             entity.callbacks.press()
         end
@@ -225,6 +225,15 @@ function Snake:MoveTo(x, y)
                 direction = 'out',
             }
         )
+
+        if i == lastPart then
+            -- This is a spot we're moving off of, check for buttons being released.
+            local entity = entities:GetTile(part.x, part.y)
+            if entity:GetType() == 'button' and entity.callbacks.release then
+                entity.callbacks.release()
+            end
+
+        end
 
         part.x = x
         part.y = y
