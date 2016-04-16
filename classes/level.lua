@@ -54,7 +54,7 @@ function Level:SpawnEntity(entityType, ...)
         local x = love.math.random(self.mapWidth)
         local y = love.math.random(self.mapHeight)
 
-        if map:GetTile(x, y):GetType() == 'floor' and entities:GetTile(x, y):GetType() == nil then
+        if map:GetTile(x, y):GetType() == 'floor' and entities:GetTile(x, y):GetType() == nil and not snake:IsOn(x, y) then
             entities:GetTile(x, y):SetType(entityType, ...)
             done = true
         end

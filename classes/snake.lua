@@ -199,6 +199,17 @@ function Snake:MoveTo(x, y)
     end
 end
 
+function Snake:IsOn(x, y)
+    for i = 1, #self.parts do
+        local part = self.parts[i]
+        if part.x == x and part.y == y then
+            return true
+        end
+    end
+
+    return false
+end
+
 function Snake:SetMouseOver(part)
     if part ~= self.mouseOverPart then
         if self.mouseOverPart and not self:IsDragging() then
