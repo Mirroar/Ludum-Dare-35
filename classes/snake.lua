@@ -323,7 +323,7 @@ function Snake:draw()
 
         if i > 1 then
             love.graphics.setColor(HSLToRGB(angle(hue) / 360, 1, 0.8))
-            love.graphics.setLineWidth(14)
+            love.graphics.setLineWidth(math.min(14, part.size * 2))
             love.graphics.line(0, 0, dx - part.offsetX, dy - part.offsetY)
         end
 
@@ -355,6 +355,8 @@ function Snake:ExitLevel(callback)
     self.interactive = false
 
     self.fadeOutSpeed = 0.1
+
+    self:FadeOutPart()
 end
 
 function Snake:FadeOutPart()

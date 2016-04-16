@@ -185,8 +185,7 @@ function love.mousereleased(x, y, button, istouch)
 end
 
 local levelKeys = {
-    ['1'] = 'level1',
-    ['2'] = 'level2',
+    ['1'] = 'intro',
     ['0'] = 'sandbox',
 }
 
