@@ -186,7 +186,7 @@ end
 
 local levelKeys = {
     ['1'] = 'intro',
-    ['2'] = 'level1',
+    ['2'] = 'seesaw',
     ['0'] = 'sandbox',
 }
 
