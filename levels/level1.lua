@@ -31,8 +31,19 @@ function Level1:construct()
 
     -- Add a snake.
     snake = Snake(map, {{3, 1}, {4, 1}})
+
+    self.sentText = false
 end
 
+-- Gets called when an entity is eaten, for the level to respond.
+function Level1:EntityEaten(entityType, x, y)
+    if entityType == 'food' and not self.sentText then
+        log:insert("Eating green pellets will make you longer.")
+        self.sentText = true
+    end
+end
+
+-- Gets called when the player reaches the exit.
 function Level1:OnExit()
     Level.OnExit(self)
     LoadLevel('level2')

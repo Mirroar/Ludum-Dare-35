@@ -19,6 +19,9 @@ function Level:construct(mapWidth, mapHeight)
     entities:SetTileOffset(1, 32, 0)
     entities:SetTileOffset(2, 16, 28)
 
+    -- Clear message log.
+    log:clear()
+
     -- Spawning the snake is the responsibility of the actual level
     -- implementation.
 end

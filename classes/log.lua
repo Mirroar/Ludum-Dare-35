@@ -1,10 +1,12 @@
 Log = class()
 
+-- Constructs a new message log object.
 function Log:construct(numLines)
     self.numLines = numLines or 5
     self.lines = {}
 end
 
+-- Adds a message to this log.
 function Log:insert(text, prefix, tileIcon, padding)
     padding = padding or ''
     table.insert(self.lines, {
@@ -12,6 +14,11 @@ function Log:insert(text, prefix, tileIcon, padding)
         prefix = prefix,
         tileIcon = tileIcon,
     })
+end
+
+-- Removes all messages from this log.
+function Log:clear()
+    self.lines = {}
 end
 
 function Log:draw()

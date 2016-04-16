@@ -121,6 +121,7 @@ function LoadLevel(id)
     if not levels[id] then
         require('levels/' .. id)
     end
+    currentLevel = id
     level = levels[id]()
 end
 
@@ -193,6 +194,11 @@ local levelKeys = {
 function love.keypressed(key, scanCode, isRepeat)
     if scanCode == 'escape' then
         love.event.quit()
+    end
+
+    if key == 'r' then
+        -- Restart current level.
+        LoadLevel(currentLevel)
     end
 
     if levelKeys[key] then
