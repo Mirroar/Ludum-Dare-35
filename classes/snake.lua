@@ -54,6 +54,17 @@ function Snake:update(delta)
 end
 
 function Snake:MoveTo(x, y)
+    local add = nil
+    local size = 7
+    if entities:GetTile(x, y):GetType() == 'food' then
+        add = 'normal'
+        entities:GetTile(x, y):SetType(nil)
+    elseif entities:GetTile(x, y):GetType() == 'bigfood' then
+        add = 'fat'
+        size = 12
+        entities:GetTile(x, y):SetType(nil)
+    end
+
     local firstPart = 1
     local lastPart = #self.parts
     local direction = 1
@@ -68,6 +79,22 @@ function Snake:MoveTo(x, y)
     local previousY
     for i = firstPart, lastPart, direction do
         local part = self.parts[i]
+
+        if add and i ~= firstPart then
+            if direction == -1 then
+                i = i + 1
+            end
+            table.insert(self.parts, i, {
+                type = add,
+                x = x,
+                y = y,
+                size = size,
+            })
+
+            -- We added a new part, so all other parts do not need to be moved.
+            break
+        end
+
         previousX = part.x
         previousY = part.y
 
@@ -156,6 +183,9 @@ function Snake:draw()
         love.graphics.line(0, 0, dx, dy)
 
         if part.type == 'normal' then
+            love.graphics.setColor(255, 255, 255)
+            love.graphics.circle('fill', 0, 0, part.size)
+        elseif part.type == 'fat' then
             love.graphics.setColor(255, 255, 255)
             love.graphics.circle('fill', 0, 0, part.size)
         elseif part.type == 'head' then

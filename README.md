@@ -24,3 +24,4 @@ Current Progress
   * randomly generated with passable and impassable tiles
 * A snake
   * Can be dragged around from both ends
+  * Can eat food to become longer (and fatter)
