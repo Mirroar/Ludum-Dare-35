@@ -120,8 +120,8 @@ end
 function LoadLevel(id)
     if not levels[id] then
         require('levels/' .. id)
-        level = levels[id]()
     end
+    level = levels[id]()
 end
 
 -- Initializes the application.
@@ -183,9 +183,18 @@ function love.mousereleased(x, y, button, istouch)
     snake:mousereleased(x, y, button, istouch)
 end
 
+local levelKeys = {
+    ['1'] = 'level1',
+    ['0'] = 'sandbox',
+}
+
 -- Handles pressed keys.
 function love.keypressed(key, scanCode, isRepeat)
     if scanCode == 'escape' then
         love.event.quit()
+    end
+
+    if levelKeys[key] then
+        LoadLevel(levelKeys[key])
     end
 end
