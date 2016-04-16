@@ -117,7 +117,7 @@ function love.load()
     end
 
     -- Add a snake.
-    snake = Snake(map, {{8, 8}, {8, 9}, {8, 10}})
+    snake = Snake(map, {{8, 8}, {8, 9}, {8, 10}, {8, 11}, {8, 12}})
 
     -- Initialize tween manager.
     tweens = TweenManager()

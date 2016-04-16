@@ -43,13 +43,40 @@ function Snake:update(delta)
             for dx = -1, 1 do
                 for dy = -1, 1 do
                     if (dx ~= 0 or dy ~= 0) and math.abs(dx + dy) < 2 then
-                        if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) then
+                        if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) and self.map:GetTile(part.x + dx, part.y + dy):GetType() ~= 'wall' then
                             print ('dragging to adjacent tile '..(part.x + dx)..', '..(part.y + dy))
+                            self:MoveTo(part.x + dx, part.y + dy)
                         end
                     end
                 end
             end
         end
+    end
+end
+
+function Snake:MoveTo(x, y)
+    local firstPart = 1
+    local lastPart = #self.parts
+    local direction = 1
+    if self.dragging ~= self.parts[1] then
+        -- We're probably dragging the tail end.
+        firstPart = lastPart
+        lastPart = 1
+        direction = -1
+    end
+
+    local previousX
+    local previousY
+    for i = firstPart, lastPart, direction do
+        local part = self.parts[i]
+        previousX = part.x
+        previousY = part.y
+
+        part.x = x
+        part.y = y
+
+        x = previousX
+        y = previousY
     end
 end
 
@@ -105,7 +132,7 @@ function Snake:mousepressed(x, y, button, istouch)
 end
 
 function Snake:mousereleased(x, y, button, istouch)
-    if self:IsDragging() then
+    if button == 1 and self:IsDragging() then
         self:StartDragging(nil)
     end
 end
