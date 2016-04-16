@@ -13,6 +13,7 @@ require('classes/log')
 require('classes/tweenmanager')
 
 require('classes/snake')
+require('classes/level')
 
 -- Makes sure angles are always between 0 and 360.
 function angle(x)
@@ -133,6 +134,13 @@ function HSLToRGB(hue, saturation, lightness)
     return r * 255, g * 255, b * 255
 end
 
+function LoadLevel(id)
+    if not levels[id] then
+        require('levels/' .. id)
+        level = levels[id]()
+    end
+end
+
 -- Initializes the application.
 function love.load()
     love.window.setTitle("Ludum Dare 35")
@@ -150,10 +158,9 @@ function love.load()
     LoadTextures()
     LoadSounds()
 
-    mapOffset = {
-        x = -15,
-        y = 50,
-    }
+    levels = {}
+
+    LoadLevel('sandbox')
 
     map = Map(mapWidth, mapHeight)
     map:SetTileOffset(1, 32, 0)
@@ -202,7 +209,7 @@ function love.draw()
     -- Draw map.
     love.graphics.setColor(255, 255, 255)
     love.graphics.push()
-    love.graphics.translate(mapOffset.x, mapOffset.y)
+    love.graphics.translate(level.mapOffset.x, level.mapOffset.y)
     map:draw()
     entities:draw()
     snake:draw()

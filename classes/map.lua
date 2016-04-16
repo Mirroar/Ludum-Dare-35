@@ -83,8 +83,8 @@ end
 -- Checks whether the given screen position is over a certain tile.
 function Map:HitsTile(mouseX, mouseY, tileX, tileY)
     local x, y = self:GetScreenPosition(tileX, tileY)
-    local dx = x + mapOffset.x - mouseX
-    local dy = y + mapOffset.y - mouseY
+    local dx = x + level.mapOffset.x - mouseX
+    local dy = y + level.mapOffset.y - mouseY
 
     if dx * dx + dy * dy < self.mouseRadius * self.mouseRadius then
         return true
