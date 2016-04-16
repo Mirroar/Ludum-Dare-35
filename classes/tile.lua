@@ -4,7 +4,7 @@ function Tile:cunstruct()
     self.tileType = nil
 end
 
-function Tile:SetType(tileType)
+function Tile:SetType(tileType, extra)
     self.tileType = tileType
 
     if tileType == 'food' then
@@ -15,6 +15,8 @@ function Tile:SetType(tileType)
         self.rotationSpeed = 5
         self.rotation = love.math.random(360)
         self:rotate()
+    elseif tileType == 'smalldoor' then
+        self.exits = extra
     end
 end
 
@@ -43,7 +45,7 @@ function Tile:draw()
 
     elseif self.tileType == 'wall' then
         love.graphics.setColor(192, 192, 192)
-        love.graphics.circle("fill", 0, 0, 15)
+        love.graphics.circle("fill", 0, 0, 18, 5)
 
     elseif self.tileType == 'food' then
         love.graphics.setColor(128, 255, 192)
@@ -53,6 +55,30 @@ function Tile:draw()
     elseif self.tileType == 'bigfood' then
         love.graphics.setColor(255, 64, 64)
         love.graphics.polygon("fill", 0, -5, 5, 4, -5, 4)
+
+    elseif self.tileType == 'smalldoor' then
+        love.graphics.setColor(255, 255, 255)
+        love.graphics.circle("fill", 0, 0, 16)
+        love.graphics.setColor(0, 0, 0)
+        love.graphics.setLineWidth(14)
+        if self.exits.nw then
+            love.graphics.line(0, 0, -9, -14)
+        end
+        if self.exits.ne then
+            love.graphics.line(0, 0, 9, -14)
+        end
+        if self.exits.w then
+            love.graphics.line(0, 0, -16, 0)
+        end
+        if self.exits.e then
+            love.graphics.line(0, 0, 16, 0)
+        end
+        if self.exits.sw then
+            love.graphics.line(0, 0, -9, 14)
+        end
+        if self.exits.se then
+            love.graphics.line(0, 0, 9, 14)
+        end
 
     elseif self.tileType == 'exit' then
         love.graphics.rotate(angle(self.rotation) * math.pi / 180)

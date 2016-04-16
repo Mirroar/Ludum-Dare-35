@@ -14,9 +14,9 @@ local mapStrings = {
     entities = {
         '       ',
         '       ',
-        '    O  ',
+        '  oOO  ',
         '      x',
-        '   O   ',
+        ' oOO   ',
         '       ',
         '       ',
     },
@@ -31,8 +31,18 @@ function Level2:construct()
     -- Initialize map.
     self:LoadMap(mapStrings)
 
+    -- Add a small door.
+    entities:GetTile(5, 4):SetType('smalldoor', {
+        nw = true,
+        ne = false,
+        w = true,
+        e = true,
+        sw = true,
+        se = false,
+    })
+
     -- Add a snake.
-    snake = Snake(map, {{3, 1}, {4, 1}})
+    snake = Snake(map, {{4, 1}, {5, 1}, {6, 1}})
 end
 
 function Level2:OnExit()
