@@ -18,6 +18,8 @@ function Snake:construct(map, coordinates)
             x = part[1],
             y = part[2],
             size = size,
+            offsetX = 0,
+            offsetY = 0,
         })
     end
 end
@@ -186,6 +188,8 @@ function Snake:MoveTo(x, y)
                 x = x,
                 y = y,
                 size = size,
+                offsetX = 0,
+                offsetY = 0,
             })
 
             -- We added a new part, so all other parts do not need to be moved.
@@ -194,6 +198,23 @@ function Snake:MoveTo(x, y)
 
         previousX = part.x
         previousY = part.y
+
+        local oldScreenX, oldScreenY = self.map:GetScreenPosition(previousX, previousY)
+        local screenX, screenY = self.map:GetScreenPosition(x, y)
+        part.offsetX = oldScreenX - screenX + part.offsetX
+        part.offsetY = oldScreenY - screenY + part.offsetY
+        tweens:Tween(
+            part,
+            {
+                offsetX = 0,
+                offsetY = 0,
+            },
+            {
+                duration = 0.3,
+                type = 'square',
+                direction = 'out',
+            }
+        )
 
         part.x = x
         part.y = y
@@ -285,11 +306,13 @@ function Snake:draw()
         end
 
         love.graphics.push()
-        love.graphics.translate(x, y)
+        love.graphics.translate(x + part.offsetX, y + part.offsetY)
 
-        love.graphics.setColor(HSLToRGB(angle(hue) / 360, 1, 0.8))
-        love.graphics.setLineWidth(14)
-        love.graphics.line(0, 0, dx, dy)
+        if i > 1 then
+            love.graphics.setColor(HSLToRGB(angle(hue) / 360, 1, 0.8))
+            love.graphics.setLineWidth(14)
+            love.graphics.line(0, 0, dx - part.offsetX, dy - part.offsetY)
+        end
 
         hue = hue + 10
         local r, g, b = HSLToRGB(angle(hue) / 360, 1, 0.8)
@@ -307,7 +330,7 @@ function Snake:draw()
         love.graphics.pop()
 
         -- Remember coordinates for connecting to next part.
-        previousX = x
-        previousY = y
+        previousX = x + part.offsetX
+        previousY = y + part.offsetY
     end
 end
