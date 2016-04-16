@@ -84,12 +84,18 @@ local mapHeight = 15
 function love.load()
     love.window.setTitle("Ludum Dare 35")
     love.window.setMode(1280, 720)
+    love.mouse.setVisible(true)
 
     log = Log()
     log:insert('initialized...')
 
     LoadTextures()
     LoadSounds()
+
+    mapOffset = {
+        x = -15,
+        y = 50,
+    }
 
     map = Map(mapWidth, mapHeight)
     map:SetTileOffset(1, 32, 0)
@@ -112,10 +118,15 @@ function love.load()
 
     -- Add a snake.
     snake = Snake(map, {{8, 8}, {8, 9}, {8, 10}})
+
+    -- Initialize tween manager.
+    tweens = TweenManager()
 end
 
 -- Handles per-frame state updates.
 function love.update(delta)
+    tweens:update(delta)
+    snake:update(delta)
 end
 
 -- Draws a frame.
@@ -127,7 +138,7 @@ function love.draw()
     -- Draw map.
     love.graphics.setColor(255, 255, 255)
     love.graphics.push()
-    love.graphics.translate(-50, 50)
+    love.graphics.translate(mapOffset.x, mapOffset.y)
     map:draw()
     snake:draw()
     love.graphics.pop()
@@ -138,6 +149,12 @@ function love.draw()
     love.graphics.setColor(255, 255, 255)
     log:draw()
     love.graphics.pop()
+end
+
+function love.mousepressed(x, y, button, istouch)
+end
+
+function love.mousereleased(x, y, button, istouch)
 end
 
 -- Handles pressed keys.
