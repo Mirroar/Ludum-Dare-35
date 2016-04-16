@@ -102,5 +102,8 @@ function love.draw()
 end
 
 -- Handles pressed keys.
-function love.keypressed(key, isRepeat)
+function love.keypressed(key, scanCode, isRepeat)
+    if scanCode == 'escape' then
+        love.event.quit()
+    end
 end
