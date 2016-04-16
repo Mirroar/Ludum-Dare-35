@@ -12,27 +12,6 @@ require('classes/menu')
 require('classes/log')
 require('classes/tweenmanager')
 
--- List of example modules for showing off functionality.
-local modules = {
-    isometric = {
-        name = 'Isometric Map',
-        className = 'IsometricSample',
-    },
-    linear = {
-        name = 'Linear Map',
-        className = 'LinearSample',
-    },
-    topdown = {
-        name = 'Top-Down Map',
-        className = 'TopDownSample',
-    },
-    tweens = {
-        name = 'Tweens',
-        className = 'TweenSample',
-    },
-}
-local currentModule = nil
-
 -- Makes sure angles are always between 0 and 360.
 function angle(x)
     return x % 360
@@ -71,22 +50,19 @@ end
 
 -- Loads and defines all needed textures.
 local function LoadTextures()
-    textures = TiledTextureAtlas("images/Textures.png")
+    --textures = TiledTextureAtlas("images/Textures.png")
     --textures:SetTileSize(32, 32)
     --textures:SetTilePadding(2, 2)
     --textures:SetTileOffset(2, 2)
-    textures:DefineTile("Spinner1", 1, 1)
-    textures:DefineTile("Spinner2", 2, 1)
-    textures:DefineTile("Spinner3", 3, 1)
-    textures:DefineTile("Spinner4", 4, 1)
+    --textures:DefineTile("Spinner1", 1, 1)
 end
 
 -- Loads and defines all needed sounds.
 local function LoadSounds()
     sounds = {
-        menu = {
+        --[[menu = {
             love.audio.newSource("sounds/Menu.wav", "static"),
-        },
+        },--]]
     }
 end
 
@@ -101,29 +77,11 @@ end
 
 -- Initializes the application.
 function love.load()
-    love.window.setTitle("Ludum Dare")
+    love.window.setTitle("Ludum Dare 35")
     love.window.setMode(1280, 720)
 
     LoadTextures()
     LoadSounds()
-
-    menu = Menu()
-
-    for moduleName, moduleInfo in pairs(modules) do
-        menu:AddItem(moduleInfo.name, function()
-            if not moduleInfo.initialized then
-                moduleInfo.initialized = true
-                require('modules/' .. moduleName)
-                moduleInfo.object = _G[moduleInfo.className]()
-            end
-
-            currentModule = moduleInfo
-        end)
-    end
-
-    menu:AddItem("Exit", function()
-        love.event.quit()
-    end)
 
     log = Log()
     log:insert('initialized...')
@@ -131,11 +89,6 @@ end
 
 -- Handles per-frame state updates.
 function love.update(delta)
-    menu:update(delta)
-
-    if currentModule and currentModule.object.update then
-        currentModule.object:update(delta)
-    end
 end
 
 -- Draws a frame.
@@ -144,21 +97,10 @@ function love.draw()
     love.graphics.setBackgroundColor(32, 32, 32)
     love.graphics.clear()
 
-    -- Draw active modules.
-    if currentModule and currentModule.object.draw then
-        love.graphics.push()
-        love.graphics.translate(0, 200)
-        love.graphics.setColor(255, 255, 255)
-        currentModule.object:draw()
-        love.graphics.pop()
-    end
-
     love.graphics.setColor(255, 255, 255)
-    menu:draw()
     log:draw()
 end
 
 -- Handles pressed keys.
 function love.keypressed(key, isRepeat)
-    menu:keypressed(key)
 end
