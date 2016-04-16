@@ -49,6 +49,6 @@ function TwoHeadsLevel:OnExit()
     Level.OnExit(self)
 
     snake:ExitLevel(function ()
-        LoadLevel('level1')
+        LoadLevel('seesaw')
     end)
 end

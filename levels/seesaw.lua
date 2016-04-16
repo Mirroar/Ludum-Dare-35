@@ -1,5 +1,5 @@
-Level1 = class(Level)
-levels.level1 = Level1
+SeeSawLevel = class(Level)
+levels.seesaw = SeeSawLevel
 
 local mapStrings = {
     map = {
@@ -22,7 +22,7 @@ local mapStrings = {
     },
 }
 
-function Level1:construct()
+function SeeSawLevel:construct()
     Level.construct(self, 15, 7)
 
     self.mapOffset.x = -16
@@ -38,7 +38,7 @@ function Level1:construct()
 end
 
 -- Gets called when an entity is eaten, for the level to respond.
-function Level1:EntityEaten(entityType, x, y)
+function SeeSawLevel:EntityEaten(entityType, x, y)
     if entityType == 'food' then
         if self.foodCount % 2 == 0 then
             entities:GetTile(12, 5):SetType('food')
@@ -58,7 +58,7 @@ function Level1:EntityEaten(entityType, x, y)
 end
 
 -- Gets called when the player reaches the exit.
-function Level1:OnExit()
+function SeeSawLevel:OnExit()
     Level.OnExit(self)
 
     snake:ExitLevel(function ()
