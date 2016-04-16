@@ -152,9 +152,11 @@ function love.draw()
 end
 
 function love.mousepressed(x, y, button, istouch)
+    snake:mousepressed(x, y, button, istouch)
 end
 
 function love.mousereleased(x, y, button, istouch)
+    snake:mousereleased(x, y, button, istouch)
 end
 
 -- Handles pressed keys.

@@ -27,11 +27,7 @@ function Snake:update(delta)
     local mouseX, mouseY = love.mouse.getPosition()
     local found = false
     for i, part in ipairs(self.parts) do
-        local x, y = self.map:GetScreenPosition(part.x, part.y)
-        local dx = x + mapOffset.x - mouseX
-        local dy = y + mapOffset.y - mouseY
-
-        if dx * dx + dy * dy < self.mouseRadius * self.mouseRadius then
+        if self.map:HitsTile(mouseX, mouseY, part.x, part.y) then
             self:SetMouseOver(part)
             found = true
             break
@@ -40,12 +36,26 @@ function Snake:update(delta)
 
     if not found then
         self:SetMouseOver(nil)
+
+        -- Check if we moved to an adjacent tile while dragging.
+        if self:IsDragging() then
+            local part = self.dragging
+            for dx = -1, 1 do
+                for dy = -1, 1 do
+                    if (dx ~= 0 or dy ~= 0) and math.abs(dx + dy) < 2 then
+                        if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) then
+                            print ('dragging to adjacent tile '..(part.x + dx)..', '..(part.y + dy))
+                        end
+                    end
+                end
+            end
+        end
     end
 end
 
 function Snake:SetMouseOver(part)
     if part ~= self.mouseOverPart then
-        if self.mouseOverPart then
+        if self.mouseOverPart and not self:IsDragging() then
             if self.mouseOverPart.type == 'head' then
                 tweens:Tween(self.mouseOverPart, {size = 10}, {type = 'square', direction = 'out', duration = 0.5})
             end
@@ -53,7 +63,7 @@ function Snake:SetMouseOver(part)
 
         self.mouseOverPart = part
 
-        if part then
+        if part and not self:IsDragging() then
             if part.type == 'head' then
                 tweens:Tween(part, {size = 12}, {type = 'square', direction = 'out', duration = 0.5})
             end
@@ -63,6 +73,41 @@ end
 
 function Snake:IsMouseOverPart(part)
     return part == self.mouseOverPart
+end
+
+function Snake:StartDragging(dragging)
+    if self.dragging ~= dragging then
+        if self.dragging then
+            if self.dragging == self.mouseOverPart then
+                tweens:Tween(self.dragging, {size = 12}, {type = 'square', direction = 'out', duration = 0.5})
+            else
+                tweens:Tween(self.dragging, {size = 10}, {type = 'square', direction = 'out', duration = 0.5})
+            end
+        end
+
+        self.dragging = dragging
+
+        if dragging then
+            tweens:Tween(dragging, {size = 15}, {type = 'square', direction = 'out', duration = 0.5})
+        end
+
+    end
+end
+
+function Snake:IsDragging()
+    return self.dragging
+end
+
+function Snake:mousepressed(x, y, button, istouch)
+    if button == 1 and self.mouseOverPart and self.mouseOverPart.type == 'head' then
+        self:StartDragging(self.mouseOverPart)
+    end
+end
+
+function Snake:mousereleased(x, y, button, istouch)
+    if self:IsDragging() then
+        self:StartDragging(nil)
+    end
 end
 
 function Snake:draw()

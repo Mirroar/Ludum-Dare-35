@@ -7,6 +7,7 @@ function Map:construct(...)
     self:SetSize(...)
     self.xTileSize = {}
     self.yTileSize = {}
+    self.mouseRadius = 15
     for i = 1, self.dimensions do
         self.xTileSize[i] = 16
         self.yTileSize[i] = 16
@@ -77,6 +78,18 @@ function Map:GetTileCoordinates(x, y, validityCallback)
 end
 
 function Map:_GetTileCoordinatesRecursive(dimension)
+end
+
+-- Checks whether the given screen position is over a certain tile.
+function Map:HitsTile(mouseX, mouseY, tileX, tileY)
+    local x, y = self:GetScreenPosition(tileX, tileY)
+    local dx = x + mapOffset.x - mouseX
+    local dy = y + mapOffset.y - mouseY
+
+    if dx * dx + dy * dy < self.mouseRadius * self.mouseRadius then
+        return true
+    end
+    return false
 end
 
 function Map:draw()
