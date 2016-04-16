@@ -44,7 +44,6 @@ function Snake:update(delta)
                 for dy = -1, 1 do
                     if (dx ~= 0 or dy ~= 0) and math.abs(dx + dy) < 2 then
                         if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) and self.map:GetTile(part.x + dx, part.y + dy):GetType() ~= 'wall' then
-                            print ('dragging to adjacent tile '..(part.x + dx)..', '..(part.y + dy))
                             self:MoveTo(part.x + dx, part.y + dy)
                         end
                     end

@@ -80,15 +80,34 @@ end
 local mapWidth = 15
 local mapHeight = 15
 
+function SpawnEntity(entityType)
+    -- TODO: Make sure this doesn't spawn in the snake, either.
+    local done = false
+    while not done do
+        local x = love.math.random(mapWidth)
+        local y = love.math.random(mapHeight)
+
+        if map:GetTile(x, y):GetType() == 'floor' and entities:GetTile(x, y):GetType() == nil then
+            entities:GetTile(x, y):SetType(entityType)
+            done = true
+        end
+    end
+end
+
 -- Initializes the application.
 function love.load()
     love.window.setTitle("Ludum Dare 35")
     love.window.setMode(1280, 720)
     love.mouse.setVisible(true)
 
+    -- Initialize message log.
     log = Log()
     log:insert('initialized...')
 
+    -- Initialize tween manager.
+    tweens = TweenManager()
+
+    -- Load assets.
     LoadTextures()
     LoadSounds()
 
@@ -116,11 +135,17 @@ function love.load()
         end
     end
 
+    -- Add entities to collect.
+    entities = Map(mapWidth, mapHeight)
+    entities:SetTileOffset(1, 32, 0)
+    entities:SetTileOffset(2, 16, 28)
+
+    SpawnEntity('food')
+    SpawnEntity('food')
+    SpawnEntity('bigfood')
+
     -- Add a snake.
     snake = Snake(map, {{8, 8}, {8, 9}, {8, 10}, {8, 11}, {8, 12}})
-
-    -- Initialize tween manager.
-    tweens = TweenManager()
 end
 
 -- Handles per-frame state updates.
@@ -140,6 +165,7 @@ function love.draw()
     love.graphics.push()
     love.graphics.translate(mapOffset.x, mapOffset.y)
     map:draw()
+    entities:draw()
     snake:draw()
     love.graphics.pop()
 
