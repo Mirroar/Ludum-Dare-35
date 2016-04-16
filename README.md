@@ -7,8 +7,8 @@ Ideas
 -----
 
 * Dragging a "snake" around a map
-  * Possibly from both ends
-  * Eating special shapes might resrict movement
+  * From both ends
+  * Eating special shapes resricts movement
     * Add a tile to the side of the snake
       * How do you go around corners then? Do you even?
     * Make one part too fat to fit through gaps
@@ -16,6 +16,7 @@ Ideas
   * Goal?
     * Get to a certain point
     * Eat all the stuff
+  * Buttons to change level layout
 
 Current Progress
 ----------------
