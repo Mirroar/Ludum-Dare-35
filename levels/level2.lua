@@ -34,11 +34,13 @@ function Level2:construct()
     -- Add a small door.
     entities:GetTile(5, 4):SetType('smalldoor', {
         nw = true,
-        ne = false,
         w = true,
         e = true,
         sw = true,
-        se = false,
+    })
+    entities:GetTile(6, 4):SetType('smalldoor', {
+        w = true,
+        e = true,
     })
 
     -- Add a snake.

@@ -46,8 +46,10 @@ function Snake:update(delta)
                     if (dx ~= 0 or dy ~= 0) and math.abs(dx + dy) < 2 then
                         -- Make sure tile is in bounds.
                         if part.x + dx > 0 and part.y + dy > 0 and part.x + dx <= level.mapWidth and part.y + dy <= level.mapHeight then
-                            if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) and self.map:GetTile(part.x + dx, part.y + dy):GetType() == 'floor' then
-                                self:MoveTo(part.x + dx, part.y + dy)
+                            if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) then
+                                if self.CanMoveTo(part.x + dx, part.y + dy) then
+                                    self:MoveTo(part.x + dx, part.y + dy)
+                                end
                             end
                         end
                     end
@@ -55,6 +57,14 @@ function Snake:update(delta)
             end
         end
     end
+end
+
+function Snake:CanMoveTo(x, y)
+    if self.map:GetTile(part.x + dx, part.y + dy):GetType() ~= 'floor' then
+        return false
+    end
+
+    return true
 end
 
 function Snake:MoveTo(x, y)

@@ -45,7 +45,7 @@ function Tile:draw()
 
     elseif self.tileType == 'wall' then
         love.graphics.setColor(192, 192, 192)
-        love.graphics.circle("fill", 0, 0, 18, 5)
+        love.graphics.circle("fill", 0, 0, 18)
 
     elseif self.tileType == 'food' then
         love.graphics.setColor(128, 255, 192)
@@ -79,6 +79,10 @@ function Tile:draw()
         if self.exits.se then
             love.graphics.line(0, 0, 9, 14)
         end
+
+        -- Add 'floor' graphic.
+        love.graphics.setColor(64, 64, 64)
+        love.graphics.circle("fill", 0, 0, 5)
 
     elseif self.tileType == 'exit' then
         love.graphics.rotate(angle(self.rotation) * math.pi / 180)

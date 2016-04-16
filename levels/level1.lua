@@ -11,10 +11,10 @@ local mapStrings = {
     },
     entities = {
         '     ',
-        '     ',
+        '    o',
         '  x  ',
         '     ',
-        '     ',
+        ' o   ',
     },
 }
 
