@@ -23,3 +23,4 @@ Current Progress
 * A hexagonal map
   * randomly generated with passable and impassable tiles
 * A snake
+  * Can be dragged around from both ends
