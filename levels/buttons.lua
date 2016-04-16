@@ -46,12 +46,14 @@ function ButtonsLevel:construct()
     entities:GetTile(9, 3).callbacks.press = function ()
         entities:GetTile(6, 6).exits.ne = true
         entities:GetTile(6, 6).exits.sw = true
+        log:insert('New paths might open.')
     end
     entities:GetTile(3, 9).callbacks.press = function ()
         entities:GetTile(9, 6).exits.nw = true
         entities:GetTile(9, 6).exits.se = true
     end
 
+    log:insert('Many things can happen when snake moves onto a button.')
 end
 
 -- Gets called when the player reaches the exit.
