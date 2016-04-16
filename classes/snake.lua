@@ -60,8 +60,25 @@ function Snake:update(delta)
 end
 
 function Snake:CanMoveTo(x, y)
-    if not self:CanPartMoveTo(self.dragging, x, y) then
-        return false
+    local firstPart = 1
+    local lastPart = #self.parts
+    local direction = 1
+    if self.dragging ~= self.parts[1] then
+        -- We're probably dragging the tail end.
+        firstPart = lastPart
+        lastPart = 1
+        direction = -1
+    end
+
+    for i = firstPart, lastPart, direction do
+        local part = self.parts[i]
+
+        if not self:CanPartMoveTo(part, x, y) then
+            return false
+        end
+
+        x = part.x
+        y = part.y
     end
 
     return true
@@ -72,8 +89,8 @@ function Snake:CanPartMoveTo(part, x, y)
         return false
     end
 
-    local dx = self.dragging.x - x
-    local dy = self.dragging.y - y
+    local dx = part.x - x
+    local dy = part.y - y
     local entity = entities:GetTile(x, y)
     if entity and entity:GetType() == 'smalldoor' then
         -- Make sure we can only enter from opened directions.
@@ -84,7 +101,7 @@ function Snake:CanPartMoveTo(part, x, y)
         end
     end
 
-    local entity = entities:GetTile(self.dragging.x, self.dragging.y)
+    local entity = entities:GetTile(part.x, part.y)
     if entity and entity:GetType() == 'smalldoor' then
         -- Make sure we can only exit towards opened directions.
         local direction = self:ParseDirection(-dx, -dy)
@@ -97,6 +114,7 @@ function Snake:CanPartMoveTo(part, x, y)
     return true
 end
 
+-- Determines direction name from given coordinate difference.
 function Snake:ParseDirection(dx, dy)
     local direction = nil
     if dy == -1 then
@@ -122,6 +140,8 @@ function Snake:ParseDirection(dx, dy)
     return direction
 end
 
+-- Moves the currently dragged head to a new position, dragging the rest
+-- of the snake behind it.
 function Snake:MoveTo(x, y)
     local add = nil
     local size = 7
