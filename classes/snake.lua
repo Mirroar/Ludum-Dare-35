@@ -60,36 +60,34 @@ function Snake:update(delta)
 end
 
 function Snake:CanMoveTo(x, y)
+    if not self:CanPartMoveTo(self.dragging, x, y) then
+        return false
+    end
+
+    return true
+end
+
+function Snake:CanPartMoveTo(part, x, y)
     if self.map:GetTile(x, y):GetType() ~= 'floor' then
         return false
     end
 
+    local dx = self.dragging.x - x
+    local dy = self.dragging.y - y
     local entity = entities:GetTile(x, y)
     if entity and entity:GetType() == 'smalldoor' then
-        -- Make sure we can only enter from the correct direction.
-        local dx = self.dragging.x - x
-        local dy = self.dragging.y - y
+        -- Make sure we can only enter from opened directions.
+        local direction = self:ParseDirection(dx, dy)
 
-        local direction = nil
-        if dy == -1 then
-            if dx == 0 then
-                direction = 'nw'
-            elseif dx == 1 then
-                direction = 'ne'
-            end
-        elseif dy == 0 then
-            if dx == -1 then
-                direction = 'w'
-            elseif dx == 1 then
-                direction = 'e'
-            end
-        elseif dy == 1 then
-            if dx == -1 then
-                direction = 'sw'
-            elseif dx == 0 then
-                direction = 'se'
-            end
+        if direction and not entity.exits[direction] then
+            return false
         end
+    end
+
+    local entity = entities:GetTile(self.dragging.x, self.dragging.y)
+    if entity and entity:GetType() == 'smalldoor' then
+        -- Make sure we can only exit towards opened directions.
+        local direction = self:ParseDirection(-dx, -dy)
 
         if direction and not entity.exits[direction] then
             return false
@@ -97,6 +95,31 @@ function Snake:CanMoveTo(x, y)
     end
 
     return true
+end
+
+function Snake:ParseDirection(dx, dy)
+    local direction = nil
+    if dy == -1 then
+        if dx == 0 then
+            direction = 'nw'
+        elseif dx == 1 then
+            direction = 'ne'
+        end
+    elseif dy == 0 then
+        if dx == -1 then
+            direction = 'w'
+        elseif dx == 1 then
+            direction = 'e'
+        end
+    elseif dy == 1 then
+        if dx == -1 then
+            direction = 'sw'
+        elseif dx == 0 then
+            direction = 'se'
+        end
+    end
+
+    return direction
 end
 
 function Snake:MoveTo(x, y)
