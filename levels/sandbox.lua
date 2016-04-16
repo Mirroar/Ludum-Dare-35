@@ -27,6 +27,23 @@ function SandboxLevel:construct()
     self:SpawnEntity('food')
     self:SpawnEntity('bigfood')
 
+    self:SpawnEntity('smalldoor', {
+        nw = love.math.random() < 0.5,
+        ne = love.math.random() < 0.5,
+        w = love.math.random() < 0.5,
+        ne = love.math.random() < 0.5,
+        sw = love.math.random() < 0.5,
+        se = love.math.random() < 0.5,
+    })
+    self:SpawnEntity('smalldoor', {
+        nw = love.math.random() < 0.5,
+        ne = love.math.random() < 0.5,
+        w = love.math.random() < 0.5,
+        ne = love.math.random() < 0.5,
+        sw = love.math.random() < 0.5,
+        se = love.math.random() < 0.5,
+    })
+
     -- Add a snake.
     snake = Snake(map, {{8, 8}, {8, 9}, {8, 10}, {8, 11}, {8, 12}})
 end

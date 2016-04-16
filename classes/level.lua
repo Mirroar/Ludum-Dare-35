@@ -47,7 +47,7 @@ function Level:LoadMap(mapStrings)
     end
 end
 
-function Level:SpawnEntity(entityType)
+function Level:SpawnEntity(entityType, ...)
     -- TODO: Make sure this doesn't spawn in the snake, either.
     local done = false
     while not done do
@@ -55,7 +55,7 @@ function Level:SpawnEntity(entityType)
         local y = love.math.random(self.mapHeight)
 
         if map:GetTile(x, y):GetType() == 'floor' and entities:GetTile(x, y):GetType() == nil then
-            entities:GetTile(x, y):SetType(entityType)
+            entities:GetTile(x, y):SetType(entityType, ...)
             done = true
         end
     end

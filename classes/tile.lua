@@ -82,7 +82,8 @@ function Tile:draw()
 
         -- Add 'floor' graphic.
         love.graphics.setColor(64, 64, 64)
-        love.graphics.circle("fill", 0, 0, 5)
+        love.graphics.setLineWidth(2)
+        love.graphics.circle("line", 0, 0, 5)
 
     elseif self.tileType == 'exit' then
         love.graphics.rotate(angle(self.rotation) * math.pi / 180)
