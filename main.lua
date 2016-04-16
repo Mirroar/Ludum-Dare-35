@@ -75,6 +75,9 @@ function PlaySound(id)
     end
 end
 
+local mapWidth = 15
+local mapHeight = 15
+
 -- Initializes the application.
 function love.load()
     love.window.setTitle("Ludum Dare 35")
@@ -86,9 +89,19 @@ function love.load()
     LoadTextures()
     LoadSounds()
 
-    map = Map(15, 15)
+    map = Map(mapWidth, mapHeight)
     map:SetTileOffset(1, 32, 0)
-    map:SetTileOffset(2, 16, 20)
+    map:SetTileOffset(2, 16, 28)
+
+    for x = 1, mapWidth do
+        for y = 1, mapHeight do
+            if x + y > math.min(mapWidth, mapHeight) / 2 + 1 then
+                if x + y < math.max(mapWidth, mapHeight) + math.min(mapWidth, mapHeight) / 2 + 1 then
+                    map:GetTile(x, y):SetType('floor')
+                end
+            end
+        end
+    end
 end
 
 -- Handles per-frame state updates.
@@ -102,10 +115,16 @@ function love.draw()
     love.graphics.clear()
 
     love.graphics.setColor(255, 255, 255)
-    log:draw()
-
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.push()
+    love.graphics.translate(-50, 50)
     map:draw()
+    love.graphics.pop()
+
+    love.graphics.push()
+    love.graphics.translate(0, 400)
+    love.graphics.setColor(255, 255, 255)
+    log:draw()
+    love.graphics.pop()
 end
 
 -- Handles pressed keys.
