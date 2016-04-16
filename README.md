@@ -21,7 +21,11 @@ Current Progress
 ----------------
 
 * A hexagonal map
-  * randomly generated with passable and impassable tiles
+  * Randomly generated with passable and impassable tiles
+  * Predetermined maps
+  * Exits for level transitions
+  * Tight passages where fat snakes cannot pass
 * A snake
   * Can be dragged around from both ends
   * Can eat food to become longer (and fatter)
+* Tutorial messages
