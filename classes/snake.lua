@@ -69,6 +69,8 @@ function Snake:MoveTo(x, y)
         size = 12
         entities:GetTile(x, y):SetType(nil)
         level:EntityEaten('bigfood', x, y)
+    elseif entities:GetTile(x, y):GetType() == 'exit' then
+        level:OnExit()
     end
 
     local firstPart = 1
@@ -172,7 +174,7 @@ end
 function Snake:draw()
     local previousX, previousY
 
-    local hue = -5 * #self.parts
+    local hue = -5 * #self.parts + 180
     for i, part in ipairs(self.parts) do
         local x, y = self.map:GetScreenPosition(part.x, part.y)
 

@@ -23,6 +23,26 @@ function Level:construct(mapWidth, mapHeight)
     -- implementation.
 end
 
+local mapKey = {
+    [' '] = nil,
+    ['.'] = 'floor',
+    ['#'] = 'wall',
+    ['x'] = 'exit',
+}
+
+-- Loads a map from an array of strings.
+function Level:LoadMap(mapStrings)
+    for y = 1, #mapStrings do
+        local row = mapStrings[y]
+        for x = 1, string.len(row) do
+            local char = string.sub(row, x, x)
+            if mapKey[char] then
+                map:GetTile(x, y):SetType(mapKey[char])
+            end
+        end
+    end
+end
+
 function Level:SpawnEntity(entityType)
     -- TODO: Make sure this doesn't spawn in the snake, either.
     local done = false
@@ -38,4 +58,7 @@ function Level:SpawnEntity(entityType)
 end
 
 function Level:EntityEaten(entityType, x, y)
+end
+
+function Level:OnExit()
 end
