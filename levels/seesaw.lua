@@ -62,6 +62,6 @@ function SeeSawLevel:OnExit()
     Level.OnExit(self)
 
     snake:ExitLevel(function ()
-        LoadLevel('level2')
+        LoadLevel('buttons')
     end)
 end

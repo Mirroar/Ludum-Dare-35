@@ -31,6 +31,8 @@ local mapKey = {
     ['.'] = 'floor',
     ['#'] = 'wall',
     ['x'] = 'exit',
+    ['+'] = 'smalldoor',
+    ['*'] = 'button',
     ['o'] = 'food',
     ['O'] = 'bigfood',
 }

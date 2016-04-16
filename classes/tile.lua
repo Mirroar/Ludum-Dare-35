@@ -16,7 +16,9 @@ function Tile:SetType(tileType, extra)
         self.rotation = love.math.random(360)
         self:rotate()
     elseif tileType == 'smalldoor' then
-        self.exits = extra
+        self.exits = extra or {}
+    elseif tileType == 'button' then
+        self.callbacks = extra or {}
     end
 end
 
@@ -84,6 +86,10 @@ function Tile:draw()
         love.graphics.setColor(64, 64, 64)
         love.graphics.setLineWidth(2)
         love.graphics.circle("line", 0, 0, 5)
+
+    elseif self.tileType == 'button' then
+        love.graphics.setColor(192, 192, 255)
+        love.graphics.circle("fill", 0, 0, 10)
 
     elseif self.tileType == 'exit' then
         love.graphics.rotate(angle(self.rotation) * math.pi / 180)

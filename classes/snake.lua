@@ -156,16 +156,21 @@ end
 function Snake:MoveTo(x, y)
     local add = nil
     local size = 7
-    if entities:GetTile(x, y):GetType() == 'food' then
+    local entity = entities:GetTile(x, y)
+    if entity:GetType() == 'food' then
         add = 'normal'
-        entities:GetTile(x, y):SetType(nil)
+        entity:SetType(nil)
         level:EntityEaten('food', x, y)
-    elseif entities:GetTile(x, y):GetType() == 'bigfood' then
+    elseif entity:GetType() == 'bigfood' then
         add = 'fat'
         size = 12
-        entities:GetTile(x, y):SetType(nil)
+        entity:SetType(nil)
         level:EntityEaten('bigfood', x, y)
-    elseif entities:GetTile(x, y):GetType() == 'exit' and self.interactive then
+    elseif entity:GetType() == 'button' and self.interactive then
+        if entity.callbacks.press then
+            entity.callbacks.press()
+        end
+    elseif entity:GetType() == 'exit' and self.interactive then
         level:OnExit()
     end
 
