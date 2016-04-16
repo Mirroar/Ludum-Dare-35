@@ -144,7 +144,7 @@ function love.load()
 
     levels = {}
 
-    LoadLevel('sandbox')
+    LoadLevel('intro')
 end
 
 -- Handles per-frame state updates.
