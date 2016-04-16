@@ -9,7 +9,10 @@ Ideas
 * Dragging a "snake" around a map
   * Possibly from both ends
   * Eating special shapes might resrict movement
+    * How do you go around corners then? Do you even?
   * Goal?
+    * Get to a certain point
+    * Eat all the stuff
 * Drag corners / Edges of a polygon to change shape
   * For example to match a shape that was shown to the player briefly
   * could be complicated by linking points, etc.
