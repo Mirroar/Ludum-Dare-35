@@ -47,22 +47,24 @@ function Level:LoadMap(mapStrings)
     end
 end
 
+-- Spawns an entity on a random empty tile on the map.
 function Level:SpawnEntity(entityType, ...)
-    -- TODO: Make sure this doesn't spawn in the snake, either.
     local done = false
     while not done do
         local x = love.math.random(self.mapWidth)
         local y = love.math.random(self.mapHeight)
 
-        if map:GetTile(x, y):GetType() == 'floor' and entities:GetTile(x, y):GetType() == nil and not snake:IsOn(x, y) then
+        if map:GetTile(x, y):GetType() == 'floor' and entities:GetTile(x, y):GetType() == nil and (not snake or not snake:IsOn(x, y)) then
             entities:GetTile(x, y):SetType(entityType, ...)
             done = true
         end
     end
 end
 
+-- Gets called when an entity is eaten, for the level to respond.
 function Level:EntityEaten(entityType, x, y)
 end
 
+-- Gets called when the player reaches the exit.
 function Level:OnExit()
 end

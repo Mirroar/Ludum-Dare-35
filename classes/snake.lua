@@ -93,6 +93,10 @@ function Snake:CanPartMoveTo(part, x, y)
     local dy = part.y - y
     local entity = entities:GetTile(x, y)
     if entity and entity:GetType() == 'smalldoor' then
+        if part.type == 'fat' then
+            return false
+        end
+
         -- Make sure we can only enter from opened directions.
         local direction = self:ParseDirection(dx, dy)
 
