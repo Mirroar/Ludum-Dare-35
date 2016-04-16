@@ -46,5 +46,8 @@ end
 -- Gets called when the player reaches the exit.
 function Level1:OnExit()
     Level.OnExit(self)
-    LoadLevel('level2')
+
+    snake:ExitLevel(function ()
+        LoadLevel('level2')
+    end)
 end

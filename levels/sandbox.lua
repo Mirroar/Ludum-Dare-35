@@ -22,30 +22,32 @@ function SandboxLevel:construct()
         end
     end
 
+    -- Add a snake.
+    snake = Snake(map, {{8, 8}, {8, 9}, {8, 10}, {8, 11}, {8, 12}})
+
     -- Add entities to collect.
     self:SpawnEntity('food')
     self:SpawnEntity('food')
     self:SpawnEntity('bigfood')
 
-    self:SpawnEntity('smalldoor', {
-        nw = love.math.random() < 0.5,
-        ne = love.math.random() < 0.5,
-        w = love.math.random() < 0.5,
-        ne = love.math.random() < 0.5,
-        sw = love.math.random() < 0.5,
-        se = love.math.random() < 0.5,
-    })
-    self:SpawnEntity('smalldoor', {
-        nw = love.math.random() < 0.5,
-        ne = love.math.random() < 0.5,
-        w = love.math.random() < 0.5,
-        ne = love.math.random() < 0.5,
-        sw = love.math.random() < 0.5,
-        se = love.math.random() < 0.5,
-    })
+    self:SpawnEntity('exit')
 
-    -- Add a snake.
-    snake = Snake(map, {{8, 8}, {8, 9}, {8, 10}, {8, 11}, {8, 12}})
+    self:SpawnEntity('smalldoor', {
+        nw = love.math.random() < 0.5,
+        ne = love.math.random() < 0.5,
+        w = love.math.random() < 0.5,
+        ne = love.math.random() < 0.5,
+        sw = love.math.random() < 0.5,
+        se = love.math.random() < 0.5,
+    })
+    self:SpawnEntity('smalldoor', {
+        nw = love.math.random() < 0.5,
+        ne = love.math.random() < 0.5,
+        w = love.math.random() < 0.5,
+        ne = love.math.random() < 0.5,
+        sw = love.math.random() < 0.5,
+        se = love.math.random() < 0.5,
+    })
 end
 
 function SandboxLevel:EntityEaten(entityType, x, y)
@@ -54,4 +56,13 @@ function SandboxLevel:EntityEaten(entityType, x, y)
     if entityType == 'food' then
         self:SpawnEntity(entityType)
     end
+end
+
+-- Gets called when the player reaches the exit.
+function SandboxLevel:OnExit()
+    Level.OnExit(self)
+
+    snake:ExitLevel(function ()
+        LoadLevel('sandbox')
+    end)
 end

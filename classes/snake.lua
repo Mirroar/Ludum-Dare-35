@@ -5,6 +5,7 @@ function Snake:construct(map, coordinates)
     self.parts = {}
     self.mouseRadius = 16
     self.mouseOverPart = nil
+    self.interactive = true
 
     for i, part in ipairs(coordinates) do
         local type = 'normal'
@@ -25,6 +26,10 @@ function Snake:construct(map, coordinates)
 end
 
 function Snake:update(delta)
+    if not self.interactive then
+        return
+    end
+
     -- Detect if the mouse is over a head part.
     local mouseX, mouseY = love.mouse.getPosition()
     local found = false
@@ -160,7 +165,7 @@ function Snake:MoveTo(x, y)
         size = 12
         entities:GetTile(x, y):SetType(nil)
         level:EntityEaten('bigfood', x, y)
-    elseif entities:GetTile(x, y):GetType() == 'exit' then
+    elseif entities:GetTile(x, y):GetType() == 'exit' and self.interactive then
         level:OnExit()
     end
 
@@ -281,12 +286,20 @@ function Snake:IsDragging()
 end
 
 function Snake:mousepressed(x, y, button, istouch)
+    if not self.interactive then
+        return
+    end
+
     if button == 1 and self.mouseOverPart and self.mouseOverPart.type == 'head' then
         self:StartDragging(self.mouseOverPart)
     end
 end
 
 function Snake:mousereleased(x, y, button, istouch)
+    if not self.interactive then
+        return
+    end
+
     if button == 1 and self:IsDragging() then
         self:StartDragging(nil)
     end
@@ -332,5 +345,38 @@ function Snake:draw()
         -- Remember coordinates for connecting to next part.
         previousX = x + part.offsetX
         previousY = y + part.offsetY
+    end
+end
+
+-- Animates the snake disappearing, then calls the callback.
+function Snake:ExitLevel(callback)
+    print('exiting...')
+    self.exitCallback = callback
+    self.interactive = false
+
+    self.fadeOutSpeed = 0.1
+end
+
+function Snake:FadeOutPart()
+    if #self.parts > 0 then
+        local x, y = self.dragging.x, self.dragging.y
+
+        if self.dragging == self.parts[1] then
+            table.remove(self.parts, 1)
+            self.dragging = self.parts[1]
+            print("removed first")
+        else
+            table.remove(self.parts, #self.parts)
+            self.dragging = self.parts[#self.parts]
+            print("removed last")
+        end
+
+        self:MoveTo(x, y)
+
+        tweens:Tween(self, {ignoreme = 0}, {duration = self.fadeOutSpeed}, function (self)
+            self:FadeOutPart()
+        end)
+    elseif self.exitCallback then
+        self.exitCallback()
     end
 end
