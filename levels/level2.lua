@@ -25,7 +25,7 @@ local mapStrings = {
 function Level2:construct()
     Level.construct(self, 7, 7)
 
-    self.mapOffset.x = -15
+    self.mapOffset.x = -16
     self.mapOffset.y = 50
 
     -- Initialize map.

@@ -4,7 +4,7 @@ levels.sandbox = SandboxLevel
 function SandboxLevel:construct()
     Level.construct(self, 15, 15)
 
-    self.mapOffset.x = -15
+    self.mapOffset.x = -80
     self.mapOffset.y = 50
 
     -- Initialize map.
