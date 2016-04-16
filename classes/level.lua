@@ -28,16 +28,20 @@ local mapKey = {
     ['.'] = 'floor',
     ['#'] = 'wall',
     ['x'] = 'exit',
+    ['o'] = 'food',
+    ['O'] = 'bigfood',
 }
 
 -- Loads a map from an array of strings.
 function Level:LoadMap(mapStrings)
-    for y = 1, #mapStrings do
-        local row = mapStrings[y]
-        for x = 1, string.len(row) do
-            local char = string.sub(row, x, x)
-            if mapKey[char] then
-                map:GetTile(x, y):SetType(mapKey[char])
+    for mapName, strings in pairs(mapStrings) do
+        for y = 1, #strings do
+            local row = strings[y]
+            for x = 1, string.len(row) do
+                local char = string.sub(row, x, x)
+                if mapKey[char] then
+                    _G[mapName]:GetTile(x, y):SetType(mapKey[char])
+                end
             end
         end
     end

@@ -2,13 +2,24 @@ Level2 = class(Level)
 levels.level2 = Level2
 
 local mapStrings = {
-    '   ....',
-    '  .....',
-    ' ......',
-    '.......',
-    '...... ',
-    '.....  ',
-    '....   ',
+    map = {
+        '   ....',
+        '  .....',
+        ' ....##',
+        '.......',
+        '....## ',
+        '.....  ',
+        '....   ',
+    },
+    entities = {
+        '       ',
+        '       ',
+        '    O  ',
+        '      x',
+        '   O   ',
+        '       ',
+        '       ',
+    },
 }
 
 function Level2:construct()
@@ -19,8 +30,6 @@ function Level2:construct()
 
     -- Initialize map.
     self:LoadMap(mapStrings)
-
-    entities:GetTile(3, 3):SetType('exit')
 
     -- Add a snake.
     snake = Snake(map, {{3, 1}, {4, 1}})

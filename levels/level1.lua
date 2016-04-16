@@ -2,11 +2,20 @@ Level1 = class(Level)
 levels.level1 = Level1
 
 local mapStrings = {
-    '  ...',
-    ' ###.',
-    '#..#.',
-    '.##. ',
-    '...  ',
+    map = {
+        '  ...',
+        ' ###.',
+        '#..#.',
+        '.##. ',
+        '...  ',
+    },
+    entities = {
+        '     ',
+        '     ',
+        '  x  ',
+        '     ',
+        '     ',
+    },
 }
 
 function Level1:construct()
