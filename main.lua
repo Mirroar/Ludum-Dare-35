@@ -93,15 +93,22 @@ function love.load()
     map:SetTileOffset(1, 32, 0)
     map:SetTileOffset(2, 16, 28)
 
+    -- Initialize map.
     for x = 1, mapWidth do
         for y = 1, mapHeight do
             if x + y > math.min(mapWidth, mapHeight) / 2 + 1 then
                 if x + y < math.max(mapWidth, mapHeight) + math.min(mapWidth, mapHeight) / 2 + 1 then
-                    map:GetTile(x, y):SetType('floor')
+                    if love.math.random() < 0.9 or (x == 8 and y == 8) then
+                        map:GetTile(x, y):SetType('floor')
+                    else
+                        map:GetTile(x, y):SetType('wall')
+                    end
                 end
             end
         end
     end
+
+    -- Add a snake.
 end
 
 -- Handles per-frame state updates.
@@ -114,12 +121,14 @@ function love.draw()
     love.graphics.setBackgroundColor(32, 32, 32)
     love.graphics.clear()
 
+    -- Draw map.
     love.graphics.setColor(255, 255, 255)
     love.graphics.push()
     love.graphics.translate(-50, 50)
     map:draw()
     love.graphics.pop()
 
+    -- Draw message log.
     love.graphics.push()
     love.graphics.translate(0, 400)
     love.graphics.setColor(255, 255, 255)

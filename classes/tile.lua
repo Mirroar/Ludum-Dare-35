@@ -13,8 +13,11 @@ function Tile:GetType()
 end
 
 function Tile:draw()
-    if self.tileType then
-        love.graphics.setColor(255, 255, 255)
+    if self.tileType == 'floor' then
+        love.graphics.setColor(64, 64, 64)
         love.graphics.circle("fill", 0, 0, 5)
+    elseif self.tileType == 'wall' then
+        love.graphics.setColor(255, 255, 255)
+        love.graphics.circle("fill", 0, 0, 15)
     end
 end
