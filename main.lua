@@ -78,9 +78,6 @@ function PlaySound(id)
     end
 end
 
-mapWidth = 15
-mapHeight = 15
-
 function _HueToRGB(p, q, hue)
     if hue < 0 then
         hue = hue + 1
@@ -147,37 +144,6 @@ function love.load()
     levels = {}
 
     LoadLevel('sandbox')
-
-    map = Map(mapWidth, mapHeight)
-    map:SetTileOffset(1, 32, 0)
-    map:SetTileOffset(2, 16, 28)
-
-    -- Initialize map.
-    for x = 1, mapWidth do
-        for y = 1, mapHeight do
-            if x + y > math.min(mapWidth, mapHeight) / 2 + 1 then
-                if x + y < math.max(mapWidth, mapHeight) + math.min(mapWidth, mapHeight) / 2 + 1 then
-                    if love.math.random() < 0.9 or x == 8 then
-                        map:GetTile(x, y):SetType('floor')
-                    else
-                        map:GetTile(x, y):SetType('wall')
-                    end
-                end
-            end
-        end
-    end
-
-    -- Add entities to collect.
-    entities = Map(mapWidth, mapHeight)
-    entities:SetTileOffset(1, 32, 0)
-    entities:SetTileOffset(2, 16, 28)
-
-    level:SpawnEntity('food')
-    level:SpawnEntity('food')
-    level:SpawnEntity('bigfood')
-
-    -- Add a snake.
-    snake = Snake(map, {{8, 8}, {8, 9}, {8, 10}, {8, 11}, {8, 12}})
 end
 
 -- Handles per-frame state updates.

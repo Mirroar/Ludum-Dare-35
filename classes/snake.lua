@@ -45,7 +45,7 @@ function Snake:update(delta)
                     -- Check only adjacent tiles.
                     if (dx ~= 0 or dy ~= 0) and math.abs(dx + dy) < 2 then
                         -- Make sure tile is in bounds.
-                        if part.x + dx > 0 and part.y + dy > 0 and part.x + dx <= mapWidth and part.y + dy <= mapHeight then
+                        if part.x + dx > 0 and part.y + dy > 0 and part.x + dx <= level.mapWidth and part.y + dy <= level.mapHeight then
                             if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) and self.map:GetTile(part.x + dx, part.y + dy):GetType() == 'floor' then
                                 self:MoveTo(part.x + dx, part.y + dy)
                             end
