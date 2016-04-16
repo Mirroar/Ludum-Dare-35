@@ -16,3 +16,10 @@ Ideas
   * Goal?
     * Get to a certain point
     * Eat all the stuff
+
+Current Progress
+----------------
+
+* A hexagonal map
+  * randomly generated with passable and impassable tiles
+* A snake
