@@ -63,12 +63,12 @@ function Snake:MoveTo(x, y)
     if entities:GetTile(x, y):GetType() == 'food' then
         add = 'normal'
         entities:GetTile(x, y):SetType(nil)
-        SpawnEntity('food')
+        level:EntityEaten('food', x, y)
     elseif entities:GetTile(x, y):GetType() == 'bigfood' then
         add = 'fat'
         size = 12
         entities:GetTile(x, y):SetType(nil)
-        SpawnEntity('bigfood')
+        level:EntityEaten('bigfood', x, y)
     end
 
     local firstPart = 1

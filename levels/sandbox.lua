@@ -7,3 +7,11 @@ function SandboxLevel:construct()
     self.mapOffset.x = -15
     self.mapOffset.y = 50
 end
+
+function SandboxLevel:EntityEaten(entityType, x, y)
+    Level.EntityEaten(self, entityType, x, y)
+
+    if entityType == 'food' then
+        self:SpawnEntity(entityType)
+    end
+end

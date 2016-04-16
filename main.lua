@@ -81,20 +81,6 @@ end
 mapWidth = 15
 mapHeight = 15
 
-function SpawnEntity(entityType)
-    -- TODO: Make sure this doesn't spawn in the snake, either.
-    local done = false
-    while not done do
-        local x = love.math.random(mapWidth)
-        local y = love.math.random(mapHeight)
-
-        if map:GetTile(x, y):GetType() == 'floor' and entities:GetTile(x, y):GetType() == nil then
-            entities:GetTile(x, y):SetType(entityType)
-            done = true
-        end
-    end
-end
-
 function _HueToRGB(p, q, hue)
     if hue < 0 then
         hue = hue + 1
@@ -186,9 +172,9 @@ function love.load()
     entities:SetTileOffset(1, 32, 0)
     entities:SetTileOffset(2, 16, 28)
 
-    SpawnEntity('food')
-    SpawnEntity('food')
-    SpawnEntity('bigfood')
+    level:SpawnEntity('food')
+    level:SpawnEntity('food')
+    level:SpawnEntity('bigfood')
 
     -- Add a snake.
     snake = Snake(map, {{8, 8}, {8, 9}, {8, 10}, {8, 11}, {8, 12}})
