@@ -42,9 +42,13 @@ function Snake:update(delta)
             local part = self.dragging
             for dx = -1, 1 do
                 for dy = -1, 1 do
+                    -- Check only adjacent tiles.
                     if (dx ~= 0 or dy ~= 0) and math.abs(dx + dy) < 2 then
-                        if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) and self.map:GetTile(part.x + dx, part.y + dy):GetType() ~= 'wall' then
-                            self:MoveTo(part.x + dx, part.y + dy)
+                        -- Make sure tile is in bounds.
+                        if part.x + dx > 0 and part.y + dy > 0 and part.x + dx <= mapWidth and part.y + dy <= mapHeight then
+                            if self.map:HitsTile(mouseX, mouseY, part.x + dx, part.y + dy) and self.map:GetTile(part.x + dx, part.y + dy):GetType() == 'floor' then
+                                self:MoveTo(part.x + dx, part.y + dy)
+                            end
                         end
                     end
                 end
@@ -59,10 +63,12 @@ function Snake:MoveTo(x, y)
     if entities:GetTile(x, y):GetType() == 'food' then
         add = 'normal'
         entities:GetTile(x, y):SetType(nil)
+        SpawnEntity('food')
     elseif entities:GetTile(x, y):GetType() == 'bigfood' then
         add = 'fat'
         size = 12
         entities:GetTile(x, y):SetType(nil)
+        SpawnEntity('bigfood')
     end
 
     local firstPart = 1
@@ -166,6 +172,7 @@ end
 function Snake:draw()
     local previousX, previousY
 
+    local hue = -5 * #self.parts
     for i, part in ipairs(self.parts) do
         local x, y = self.map:GetScreenPosition(part.x, part.y)
 
@@ -178,18 +185,20 @@ function Snake:draw()
         love.graphics.push()
         love.graphics.translate(x, y)
 
-        love.graphics.setColor(255, 255, 255)
+        love.graphics.setColor(HSLToRGB(angle(hue) / 360, 1, 0.8))
         love.graphics.setLineWidth(14)
         love.graphics.line(0, 0, dx, dy)
 
+        hue = hue + 10
+        local r, g, b = HSLToRGB(angle(hue) / 360, 1, 0.8)
         if part.type == 'normal' then
-            love.graphics.setColor(255, 255, 255)
+            love.graphics.setColor(r, g, b)
             love.graphics.circle('fill', 0, 0, part.size)
         elseif part.type == 'fat' then
-            love.graphics.setColor(255, 255, 255)
+            love.graphics.setColor(r, g, b)
             love.graphics.circle('fill', 0, 0, part.size)
         elseif part.type == 'head' then
-            love.graphics.setColor(255, 255, 255)
+            love.graphics.setColor(r, g, b)
             love.graphics.circle('fill', 0, 0, part.size)
         end
 

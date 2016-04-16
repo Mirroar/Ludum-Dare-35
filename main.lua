@@ -77,8 +77,8 @@ function PlaySound(id)
     end
 end
 
-local mapWidth = 15
-local mapHeight = 15
+mapWidth = 15
+mapHeight = 15
 
 function SpawnEntity(entityType)
     -- TODO: Make sure this doesn't spawn in the snake, either.
@@ -92,6 +92,45 @@ function SpawnEntity(entityType)
             done = true
         end
     end
+end
+
+function _HueToRGB(p, q, hue)
+    if hue < 0 then
+        hue = hue + 1
+    elseif hue > 1 then
+        hue = hue -1
+    end
+
+    if hue < 1 / 6 then
+        return p + (q - p) * 6 * hue
+    end
+    if hue < 1 / 2 then
+        return q
+    end
+    if hue < 2 / 3 then
+        return p + (q - p) * 6 * (2/3 - hue)
+    end
+
+    return p
+end
+
+function HSLToRGB(hue, saturation, lightness)
+    local r, g, b = lightness, lightness, lightness
+
+    if saturation ~= 0 then
+        local q = lightness + saturation - lightness * saturation
+        if lightness < 0.5 then
+            q = lightness * (1 + saturation)
+        end
+
+        local p = 2 * lightness - q
+
+        r = _HueToRGB(p, q, hue + 1 / 3)
+        g = _HueToRGB(p, q, hue)
+        b = _HueToRGB(p, q, hue - 1 / 3)
+    end
+
+    return r * 255, g * 255, b * 255
 end
 
 -- Initializes the application.
