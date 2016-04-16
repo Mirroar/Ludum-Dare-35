@@ -3,43 +3,57 @@ levels.level1 = Level1
 
 local mapStrings = {
     map = {
-        '  ...',
-        ' ###.',
-        '#..#.',
-        '.##. ',
-        '...  ',
+        '   .....#######',
+        '  #####.#######',
+        ' #..###.###...#',
+        '#.##.......##.#',
+        '#...###.###..# ',
+        '#######.#####  ',
+        '#######.....   ',
     },
     entities = {
-        '     ',
-        '    o',
-        '  x  ',
-        '     ',
-        ' o   ',
+        '               ',
+        '               ',
+        '   o           ',
+        '               ',
+        '               ',
+        '               ',
+        '               ',
     },
 }
 
 function Level1:construct()
-    Level.construct(self, 5, 5)
+    Level.construct(self, 15, 7)
 
-    self.mapOffset.x = 0
+    self.mapOffset.x = -16
     self.mapOffset.y = 50
 
     -- Initialize map.
     self:LoadMap(mapStrings)
 
-    entities:GetTile(3, 3):SetType('exit')
-
     -- Add a snake.
-    snake = Snake(map, {{3, 1}, {4, 1}})
+    snake = Snake(map, {{4, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1}})
 
-    self.sentText = false
+    self.foodCount = 0
 end
 
 -- Gets called when an entity is eaten, for the level to respond.
 function Level1:EntityEaten(entityType, x, y)
-    if entityType == 'food' and not self.sentText then
-        log:insert("Eating green pellets will make you longer.")
-        self.sentText = true
+    if entityType == 'food' then
+        if self.foodCount % 2 == 0 then
+            entities:GetTile(12, 5):SetType('food')
+        else
+            entities:GetTile(4, 3):SetType('food')
+        end
+        self.foodCount = self.foodCount + 1
+
+        if self.foodCount == 8 then
+            entities:GetTile(12, 7):SetType('exit')
+            log:insert('If snake eats too much, there might not be a way back. Or sideways, in this case...')
+        elseif self.foodCount == 13 then
+            entities:GetTile(12, 5):SetType('exit')
+            log:insert('Fortunately, it seems there is always a way out.')
+        end
     end
 end
 
