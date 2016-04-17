@@ -58,12 +58,3 @@ function StuckLevel:EntityEaten(entityType, x, y)
         self.sentText = true
     end
 end
-
--- Gets called when the player reaches the exit.
-function StuckLevel:OnExit()
-    Level.OnExit(self)
-
-    snake:ExitLevel(function ()
-        LoadLevel('stick')
-    end)
-end

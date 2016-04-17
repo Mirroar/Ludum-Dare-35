@@ -43,12 +43,3 @@ function TwoHeadsLevel:EntityEaten(entityType, x, y)
         self:SpawnEntity('exit')
     end
 end
-
--- Gets called when the player reaches the exit.
-function TwoHeadsLevel:OnExit()
-    Level.OnExit(self)
-
-    snake:ExitLevel(function ()
-        LoadLevel('seesaw')
-    end)
-end

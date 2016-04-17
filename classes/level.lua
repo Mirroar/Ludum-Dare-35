@@ -72,4 +72,8 @@ end
 
 -- Gets called when the player reaches the exit.
 function Level:OnExit()
+    snake:ExitLevel(function ()
+        currentLevel = currentLevel + 1
+        LoadCurrentLevel()
+    end)
 end

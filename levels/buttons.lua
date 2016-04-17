@@ -62,12 +62,3 @@ function ButtonsLevel:construct()
 
     log:insert('Many things can happen when snake moves onto a button.')
 end
-
--- Gets called when the player reaches the exit.
-function ButtonsLevel:OnExit()
-    Level.OnExit(self)
-
-    snake:ExitLevel(function ()
-        LoadLevel('stuck')
-    end)
-end

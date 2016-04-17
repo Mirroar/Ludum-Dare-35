@@ -57,12 +57,3 @@ function SandboxLevel:EntityEaten(entityType, x, y)
         self:SpawnEntity(entityType)
     end
 end
-
--- Gets called when the player reaches the exit.
-function SandboxLevel:OnExit()
-    Level.OnExit(self)
-
-    snake:ExitLevel(function ()
-        LoadLevel('sandbox')
-    end)
-end

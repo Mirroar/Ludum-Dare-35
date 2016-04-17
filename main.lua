@@ -118,17 +118,60 @@ function HSLToRGB(hue, saturation, lightness)
     return r * 255, g * 255, b * 255
 end
 
+local levelList = {
+    {
+        id = 'intro',
+        name = 'Welcome to Limbo',
+    },
+    {
+        id = 'twoheads',
+        name = 'There are two sides to every coin',
+    },
+    {
+        id = 'seesaw',
+        name = 'Back and Forth',
+    },
+    {
+        id = 'buttons',
+        name = 'Mutable state',
+    },
+    {
+        id = 'stuck',
+        name = 'Oneway street',
+    },
+    {
+        id = 'stick',
+        name = 'Sticking ones nose into things',
+    },
+    {
+        id = 'sandbox',
+        name = 'The sandbox',
+    },
+}
+currentLevel = 1
+
 function LoadLevel(id)
     if not levels[id] then
         require('levels/' .. id)
     end
-    currentLevel = id
     level = levels[id]()
+end
+
+function LoadCurrentLevel()
+    if currentLevel < 1 then
+        currentLevel = 1
+    end
+
+    if currentLevel > #levelList then
+        currentLevel = #levelList
+    end
+
+    LoadLevel(levelList[currentLevel].id)
 end
 
 -- Initializes the application.
 function love.load()
-    love.window.setTitle("Ludum Dare 35")
+    love.window.setTitle("Snakeshift")
     love.window.setMode(1280, 720)
     love.mouse.setVisible(true)
 
@@ -145,7 +188,7 @@ function love.load()
 
     levels = {}
 
-    LoadLevel('intro')
+    LoadCurrentLevel()
 
     music = PlaySound('music1')
     music:setLooping(true)
@@ -188,14 +231,6 @@ function love.mousereleased(x, y, button, istouch)
     snake:mousereleased(x, y, button, istouch)
 end
 
-local levelKeys = {
-    ['1'] = 'intro',
-    ['2'] = 'seesaw',
-    ['3'] = 'buttons',
-    ['4'] = 'level2',
-    ['0'] = 'sandbox',
-}
-
 -- Handles pressed keys.
 function love.keypressed(key, scanCode, isRepeat)
     if scanCode == 'escape' then
@@ -204,10 +239,15 @@ function love.keypressed(key, scanCode, isRepeat)
 
     if key == 'r' then
         -- Restart current level.
-        LoadLevel(currentLevel)
+        LoadCurrentLevel()
     end
 
-    if levelKeys[key] then
-        LoadLevel(levelKeys[key])
+    if key == '+' then
+        currentLevel = currentLevel + 1
+        LoadCurrentLevel()
+    end
+    if key == '-' then
+        currentLevel = currentLevel - 1
+        LoadCurrentLevel()
     end
 end

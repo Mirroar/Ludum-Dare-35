@@ -48,12 +48,3 @@ function IntroLevel:EntityEaten(entityType, x, y)
         self:SpawnEntity('food')
     end
 end
-
--- Gets called when the player reaches the exit.
-function IntroLevel:OnExit()
-    Level.OnExit(self)
-
-    snake:ExitLevel(function ()
-        LoadLevel('twoheads')
-    end)
-end

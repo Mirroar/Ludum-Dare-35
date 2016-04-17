@@ -56,12 +56,3 @@ function SeeSawLevel:EntityEaten(entityType, x, y)
         end
     end
 end
-
--- Gets called when the player reaches the exit.
-function SeeSawLevel:OnExit()
-    Level.OnExit(self)
-
-    snake:ExitLevel(function ()
-        LoadLevel('buttons')
-    end)
-end
