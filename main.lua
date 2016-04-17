@@ -188,16 +188,37 @@ function love.load()
 
     levels = {}
 
-    LoadCurrentLevel()
-
     music = PlaySound('music1')
     music:setLooping(true)
+
+    showMenu = true
+    menu = Menu()
+    menu:AddItem("Start", function()
+        currentLevel = 1
+        LoadCurrentLevel()
+        showMenu = false
+    end)
+    menu:AddItem("Sandbox", function()
+        currentLevel = #levelList
+        LoadCurrentLevel()
+        showMenu = false
+    end)
+    menu:AddItem("Quit", function()
+        love.event.quit()
+    end)
 end
 
 -- Handles per-frame state updates.
 function love.update(delta)
     tweens:update(delta)
-    snake:update(delta)
+
+    if snake then
+        snake:update(delta)
+    end
+
+    if showMenu then
+        menu:update(delta)
+    end
 end
 
 -- Draws a frame.
@@ -209,10 +230,18 @@ function love.draw()
     -- Draw map.
     love.graphics.setColor(255, 255, 255)
     love.graphics.push()
-    love.graphics.translate(level.mapOffset.x, level.mapOffset.y)
-    map:draw()
-    entities:draw()
-    snake:draw()
+    if level then
+        love.graphics.translate(level.mapOffset.x, level.mapOffset.y)
+    end
+    if map then
+        map:draw()
+    end
+    if entities then
+        entities:draw()
+    end
+    if snake then
+        snake:draw()
+    end
     love.graphics.pop()
 
     -- Draw message log.
@@ -221,18 +250,30 @@ function love.draw()
     love.graphics.setColor(255, 255, 255)
     log:draw()
     love.graphics.pop()
+
+    if showMenu then
+        menu:draw()
+    end
 end
 
 function love.mousepressed(x, y, button, istouch)
-    snake:mousepressed(x, y, button, istouch)
+    if snake then
+        snake:mousepressed(x, y, button, istouch)
+    end
 end
 
 function love.mousereleased(x, y, button, istouch)
-    snake:mousereleased(x, y, button, istouch)
+    if snake then
+        snake:mousereleased(x, y, button, istouch)
+    end
 end
 
 -- Handles pressed keys.
 function love.keypressed(key, scanCode, isRepeat)
+    if showMenu then
+        menu:keypressed(key, scanCode, isRepeat)
+    end
+
     if scanCode == 'escape' then
         love.event.quit()
     end
