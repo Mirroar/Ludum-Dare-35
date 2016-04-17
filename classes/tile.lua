@@ -68,6 +68,8 @@ function Tile:draw()
         love.graphics.circle("fill", 0, 0, 15)
         love.graphics.circle("line", 0, 0, 15)
         love.graphics.setColor(0, 0, 0)
+        love.graphics.circle("fill", 0, 0, 6)
+        love.graphics.circle("line", 0, 0, 6)
         love.graphics.setLineWidth(14)
         if self.exits.nw then
             love.graphics.line(0, 0, -9, -14)
