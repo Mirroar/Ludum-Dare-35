@@ -41,26 +41,32 @@ function Tile:GetType()
 end
 
 function Tile:draw()
+    love.graphics.setLineWidth(2)
     if self.tileType == 'floor' then
         love.graphics.setColor(64, 64, 64)
-        love.graphics.circle("fill", 0, 0, 5)
+        love.graphics.circle("fill", 0, 0, 4)
+        love.graphics.circle("line", 0, 0, 4)
 
     elseif self.tileType == 'wall' then
         love.graphics.setColor(192, 192, 192)
-        love.graphics.circle("fill", 0, 0, 18)
+        love.graphics.circle("fill", 0, 0, 17)
+        love.graphics.circle("line", 0, 0, 17)
 
     elseif self.tileType == 'food' then
         love.graphics.setColor(128, 255, 192)
         love.graphics.rotate(angle(self.rotation) * math.pi / 180)
         love.graphics.polygon("fill", 0, -5, 5, 4, -5, 4)
+        love.graphics.polygon("line", 0, -5, 5, 4, -5, 4)
 
     elseif self.tileType == 'bigfood' then
         love.graphics.setColor(255, 64, 64)
         love.graphics.polygon("fill", 0, -5, 5, 4, -5, 4)
+        love.graphics.polygon("line", 0, -5, 5, 4, -5, 4)
 
     elseif self.tileType == 'smalldoor' then
         love.graphics.setColor(255, 255, 255)
-        love.graphics.circle("fill", 0, 0, 16)
+        love.graphics.circle("fill", 0, 0, 15)
+        love.graphics.circle("line", 0, 0, 15)
         love.graphics.setColor(0, 0, 0)
         love.graphics.setLineWidth(14)
         if self.exits.nw then
@@ -89,7 +95,8 @@ function Tile:draw()
 
     elseif self.tileType == 'button' then
         love.graphics.setColor(192, 192, 255)
-        love.graphics.circle("fill", 0, 0, 10)
+        love.graphics.circle("fill", 0, 0, 9)
+        love.graphics.circle("line", 0, 0, 9)
 
     elseif self.tileType == 'exit' then
         love.graphics.rotate(angle(self.rotation) * math.pi / 180)

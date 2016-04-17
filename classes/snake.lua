@@ -232,7 +232,6 @@ function Snake:MoveTo(x, y)
             if entity:GetType() == 'button' and entity.callbacks.release then
                 entity.callbacks.release()
             end
-
         end
 
         part.x = x
@@ -343,15 +342,19 @@ function Snake:draw()
 
         hue = hue + 10
         local r, g, b = HSLToRGB(angle(hue) / 360, 1, 0.8)
+        love.graphics.setLineWidth(2)
         if part.type == 'normal' then
             love.graphics.setColor(r, g, b)
-            love.graphics.circle('fill', 0, 0, part.size)
+            love.graphics.circle('fill', 0, 0, part.size - 1, 20)
+            love.graphics.circle('line', 0, 0, part.size - 1, 20)
         elseif part.type == 'fat' then
             love.graphics.setColor(r, g, b)
-            love.graphics.circle('fill', 0, 0, part.size)
+            love.graphics.circle('fill', 0, 0, part.size - 1, 20)
+            love.graphics.circle('line', 0, 0, part.size - 1, 20)
         elseif part.type == 'head' then
             love.graphics.setColor(r, g, b)
-            love.graphics.circle('fill', 0, 0, part.size)
+            love.graphics.circle('fill', 0, 0, part.size - 1, 20)
+            love.graphics.circle('line', 0, 0, part.size - 1, 20)
         end
 
         love.graphics.pop()
