@@ -1,5 +1,5 @@
-Level2 = class(Level)
-levels.level2 = Level2
+StuckLevel = class(Level)
+levels.stuck = StuckLevel
 
 local mapStrings = {
     map = {
@@ -26,7 +26,7 @@ local mapStrings = {
     },
 }
 
-function Level2:construct()
+function StuckLevel:construct()
     Level.construct(self, 9, 9)
 
     self.mapOffset.x = -32
@@ -51,7 +51,7 @@ function Level2:construct()
 end
 
 -- Gets called when an entity is eaten, for the level to respond.
-function Level2:EntityEaten(entityType, x, y)
+function StuckLevel:EntityEaten(entityType, x, y)
     if entityType == 'bigfood' and not self.sentText then
         log:insert("After eating a red pellet, snake will not fit through tight spaces.")
         log:insert("You may press 'R' to retry the current level.")
@@ -60,10 +60,10 @@ function Level2:EntityEaten(entityType, x, y)
 end
 
 -- Gets called when the player reaches the exit.
-function Level2:OnExit()
+function StuckLevel:OnExit()
     Level.OnExit(self)
 
     snake:ExitLevel(function ()
-        LoadLevel('sandbox')
+        LoadLevel('stick')
     end)
 end

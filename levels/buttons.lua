@@ -68,6 +68,6 @@ function ButtonsLevel:OnExit()
     Level.OnExit(self)
 
     snake:ExitLevel(function ()
-        LoadLevel('level2')
+        LoadLevel('stuck')
     end)
 end
