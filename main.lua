@@ -63,9 +63,9 @@ end
 -- Loads and defines all needed sounds.
 local function LoadSounds()
     sounds = {
-        --[[menu = {
-            love.audio.newSource("sounds/Menu.wav", "static"),
-        },--]]
+        music1 = {
+            love.audio.newSource("sounds/music1.ogg", "stream"),
+        },
     }
 end
 
@@ -75,6 +75,7 @@ function PlaySound(id)
         local sound = sounds[id][math.random(1, #sounds[id])]
         love.audio.rewind(sound)
         love.audio.play(sound)
+        return sound
     end
 end
 
@@ -145,6 +146,9 @@ function love.load()
     levels = {}
 
     LoadLevel('intro')
+
+    music = PlaySound('music1')
+    music:setLooping(true)
 end
 
 -- Handles per-frame state updates.
