@@ -136,6 +136,10 @@ local levelList = {
         name = 'Mutable state',
     },
     {
+        id = 'kitty',
+        name = '???',
+    },
+    {
         id = 'stuck',
         name = 'Oneway street',
     },

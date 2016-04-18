@@ -60,8 +60,8 @@ function Tile:draw()
 
     elseif self.tileType == 'bigfood' then
         love.graphics.setColor(255, 64, 64)
-        love.graphics.polygon("fill", 0, -5, 5, 4, -5, 4)
-        love.graphics.polygon("line", 0, -5, 5, 4, -5, 4)
+        love.graphics.polygon("fill", 0, 5, 5, -4, -5, -4)
+        love.graphics.polygon("line", 0, 5, 5, -4, -5, -4)
 
     elseif self.tileType == 'smalldoor' then
         love.graphics.setColor(255, 255, 255)
