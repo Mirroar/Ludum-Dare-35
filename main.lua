@@ -237,21 +237,7 @@ function love.load()
     music = PlaySound('music1')
     music:setLooping(true)
 
-    showMenu = true
-    menu = Menu()
-    menu:AddItem("Start", function()
-        currentLevel = 1
-        LoadCurrentLevel()
-        showMenu = false
-    end)
-    menu:AddItem("Sandbox", function()
-        currentLevel = #levelList
-        LoadCurrentLevel()
-        showMenu = false
-    end)
-    menu:AddItem("Quit", function()
-        love.event.quit()
-    end)
+    LoadCurrentLevel()
 end
 
 -- Handles per-frame state updates.
@@ -260,10 +246,6 @@ function love.update(delta)
 
     if snake then
         snake:update(delta)
-    end
-
-    if showMenu then
-        menu:update(delta)
     end
 end
 
@@ -296,10 +278,6 @@ function love.draw()
     love.graphics.setColor(255, 255, 255)
     log:draw()
     love.graphics.pop()
-
-    if showMenu then
-        menu:draw()
-    end
 end
 
 function love.mousepressed(x, y, button, istouch)
@@ -316,10 +294,6 @@ end
 
 -- Handles pressed keys.
 function love.keypressed(key, scanCode, isRepeat)
-    if showMenu then
-        menu:keypressed(key, scanCode, isRepeat)
-    end
-
     if scanCode == 'escape' then
         love.event.quit()
     end
@@ -336,5 +310,13 @@ function love.keypressed(key, scanCode, isRepeat)
     if key == '-' then
         currentLevel = currentLevel - 1
         LoadCurrentLevel()
+    end
+    if key == 'm' then
+        if music:isPlaying() then
+            music:stop()
+        else
+            music:rewind()
+            music:play()
+        end
     end
 end
