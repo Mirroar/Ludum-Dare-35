@@ -255,8 +255,16 @@ function love.draw()
     love.graphics.setBackgroundColor(32, 32, 32)
     love.graphics.clear()
 
-    -- Draw map.
+    -- Draw title.
     love.graphics.setColor(255, 255, 255)
+    if level then
+        local windowWidth, windowHeight = love.graphics.getDimensions()
+        love.graphics.setFont(love.graphics.newFont(32))
+
+        love.graphics.printf(levelList[currentLevel].name, 0, 20, windowWidth, 'center')
+    end
+
+    -- Draw map.
     love.graphics.push()
     if level then
         love.graphics.translate(level.mapOffset.x, level.mapOffset.y)
@@ -274,8 +282,9 @@ function love.draw()
 
     -- Draw message log.
     love.graphics.push()
-    love.graphics.translate(0, 400)
+    love.graphics.translate(0, 50)
     love.graphics.setColor(255, 255, 255)
+    love.graphics.setFont(love.graphics.newFont(18))
     log:draw()
     love.graphics.pop()
 end
