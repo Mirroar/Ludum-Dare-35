@@ -229,7 +229,7 @@ function Snake:MoveTo(x, y)
         if i == lastPart then
             -- This is a spot we're moving off of, check for buttons being released.
             local entity = entities:GetTile(part.x, part.y)
-            if entity:GetType() == 'button' and entity.callbacks.release then
+            if entity:GetType() == 'button' and entity.callbacks.release and self.interactive then
                 entity.callbacks.release()
             end
         end
