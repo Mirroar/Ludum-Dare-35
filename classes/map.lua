@@ -37,6 +37,18 @@ function Map:_SetSizeRecursive(table, dimension, size, ...)
     --TODO: reduce table if size is less than before
 end
 
+function Map:GetSize()
+    return self:_GetSizeRecursive(self.tiles, self.dimensions)
+end
+
+function Map:_GetSizeRecursive(table, dimension)
+    if dimension == 1 then
+        return #table
+    else
+        return #table, self:_GetSizeRecursive(table[1], dimension - 1)
+    end
+end
+
 function Map:GetTile(...)
     return self:_GetTileRecursive(self.tiles, self.dimensions, ...)
 end
