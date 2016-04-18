@@ -148,17 +148,31 @@ local levelList = {
         name = 'Sticking ones nose into things',
     },
     {
+        id = 'ld',
+        name = 'Thank you for playing!',
+    },
+    {
         id = 'sandbox',
         name = 'The sandbox',
     },
 }
 currentLevel = 1
 
+-- Positions map on the screen's center.
+function PositionMap()
+    local minX, maxX, minY, maxY
+    local width, height = map:GetSize()
+
+    print(width..', '..height)
+end
+
 function LoadLevel(id)
     if not levels[id] then
         require('levels/' .. id)
     end
     level = levels[id]()
+
+    PositionMap()
 end
 
 function LoadCurrentLevel()
