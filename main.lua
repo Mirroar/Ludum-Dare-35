@@ -163,7 +163,35 @@ function PositionMap()
     local minX, maxX, minY, maxY
     local width, height = map:GetSize()
 
-    print(width..', '..height)
+    for x = 1, width do
+        for y = 1, height do
+            local tile = map:GetTile(x, y)
+            if tile:GetType() then
+                local screenX, screenY = map:GetScreenPosition(x, y)
+
+                if not minX or screenX < minX then
+                    minX = screenX
+                end
+                if not maxX or screenX > maxX then
+                    maxX = screenX
+                end
+                if not minY or screenY < minY then
+                    minY = screenY
+                end
+                if not maxY or screenY > maxY then
+                    maxY = screenY
+                end
+            end
+        end
+    end
+
+    local centerX = (minX + maxX) / 2
+    local centerY = (minY + maxY) / 2
+
+    local windowWidth, windowHeight = love.graphics.getDimensions()
+
+    level.mapOffset.x = windowWidth / 2 - centerX
+    level.mapOffset.y = windowHeight / 2 - centerY + 50
 end
 
 function LoadLevel(id)
