@@ -256,13 +256,17 @@ function love.draw()
     love.graphics.clear()
 
     -- Draw title.
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(192, 192, 192)
+    local windowWidth, windowHeight = love.graphics.getDimensions()
     if level then
-        local windowWidth, windowHeight = love.graphics.getDimensions()
         love.graphics.setFont(love.graphics.newFont(32))
 
         love.graphics.printf(levelList[currentLevel].name, 0, 20, windowWidth, 'center')
     end
+
+    -- Print controls.
+    love.graphics.setFont(love.graphics.newFont(18))
+    love.graphics.printf('r: Restart level       +: Skip level       -: Previous level       m: Toggle music       Esc: Quit', 0, windowHeight - 40, windowWidth, 'center')
 
     -- Draw map.
     love.graphics.push()
@@ -283,8 +287,8 @@ function love.draw()
     -- Draw message log.
     love.graphics.push()
     love.graphics.translate(0, 50)
-    love.graphics.setColor(255, 255, 255)
-    love.graphics.setFont(love.graphics.newFont(18))
+    love.graphics.setColor(192, 192, 192)
+    love.graphics.setFont(love.graphics.newFont(16))
     log:draw()
     love.graphics.pop()
 end
